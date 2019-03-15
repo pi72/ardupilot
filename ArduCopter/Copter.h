@@ -83,6 +83,8 @@
 #include <AP_Arming/AP_Arming.h>
 #include <AP_SmartRTL/AP_SmartRTL.h>
 #include <AP_TempCalibration/AP_TempCalibration.h>
+#include <AP_HumiditySensor/AP_HumiditySensor.h>
+#include <AP_TempSensor/AP_TempSensor.h>
 
 // Configuration
 #include "defines.h"
@@ -247,7 +249,10 @@ private:
         LowPassFilterFloat alt_cm_filt; // altitude filter
         int8_t glitch_count;
     } rangefinder_state = { false, false, 0, 0 };
-
+    
+    HumiditySensor humidity;
+    TempSensor temp;
+    
 #if RPM_ENABLED == ENABLED
     AP_RPM rpm_sensor;
 #endif
@@ -872,6 +877,8 @@ private:
     void init_rangefinder(void);
     void read_rangefinder(void);
     bool rangefinder_alt_ok();
+    void read_humidity();
+    void read_temp();
     void rpm_update();
     void init_compass();
     void compass_accumulate(void);

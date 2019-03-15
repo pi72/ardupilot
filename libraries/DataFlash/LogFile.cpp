@@ -11,6 +11,8 @@
 #include <AC_AttitudeControl/AC_AttitudeControl.h>
 #include <AC_AttitudeControl/AC_PosControl.h>
 #include <AP_RangeFinder/RangeFinder_Backend.h>
+#include <AP_HumiditySensor/HumiditySensor.h>
+#include <AP_TempSensor/TempSensor.h>
 
 #include "DataFlash.h"
 #include "DataFlash_File.h"
@@ -193,6 +195,33 @@ void DataFlash_Class::Log_Write_RFND(const RangeFinder &rangefinder)
         dist2         : s1 ? s1->distance_cm() : (uint16_t)0,
         status2       : s1 ? (uint8_t)s1->status() : (uint8_t)0,
         orient2       : s1 ? s1->orientation() : ROTATION_NONE,
+    };
+    WriteBlock(&pkt, sizeof(pkt));
+}
+// Write a HUM (Humidity) packet
+void DataFlash_Class::Log_Write_HUM(HumiditySensor &humidity)
+{
+    float Hum_voltage = humidity.get_voltage();
+    
+    
+    struct log_HUM pkt = {
+        LOG_PACKET_HEADER_INIT((uint8_t)(LOG_HUM_MSG)),
+        time_us       : AP_HAL::micros64(),
+        hum_voltage   : Hum_voltage,
+    };
+    WriteBlock(&pkt, sizeof(pkt));
+}
+
+// Write a TEMP (Temperature) packet
+void DataFlash_Class::Log_Write_TEMP(TempSensor &temp)
+{
+    float Temp_voltage = temp.get_voltage();
+    
+    
+    struct log_TEMP pkt = {
+        LOG_PACKET_HEADER_INIT((uint8_t)(LOG_TEMP_MSG)),
+        time_us        : AP_HAL::micros64(),
+        temp_voltage   : Temp_voltage,
     };
     WriteBlock(&pkt, sizeof(pkt));
 }

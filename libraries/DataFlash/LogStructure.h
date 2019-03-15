@@ -110,7 +110,8 @@ const struct UnitStructure log_Units[] = {
     { 'v', "V" },             // Volt
     { 'P', "Pa" },            // Pascal
     { 'w', "Ohm" },           // Ohm
-    { 'z', "Hz" }             // Hertz
+    { 'z', "Hz" },            // Hertz
+    { 'c', "Centigrade"}      // Temperature unit
 };
 
 // this multiplier information applies to the raw value present in the
@@ -728,7 +729,23 @@ struct PACKED log_RFND {
     uint8_t status2;
     uint8_t orient2;
 };
+/*
+ Humidity
+ */
+struct PACKED log_HUM {
+    LOG_PACKET_HEADER;
+    uint64_t time_us;
+    float hum_voltage;
+};
 
+/*
+ Temperature
+ */
+struct PACKED log_TEMP {
+    LOG_PACKET_HEADER;
+    uint64_t time_us;
+    float temp_voltage;
+};
 /*
   terrain log structure
  */
@@ -1240,6 +1257,10 @@ Format characters in the format string for binary log messages
       "MODE", "QMBB",         "TimeUS,Mode,ModeNum,Rsn", "s---", "F---" }, \
     { LOG_RFND_MSG, sizeof(log_RFND), \
       "RFND", "QCBBCBB", "TimeUS,Dist1,Stat1,Orient1,Dist2,Stat2,Orient2", "sm--m--", "FB--B--" }, \
+    { LOG_HUM_MSG, sizeof(log_HUM), \
+      "HUM", "Qf", "TimeUS,Humidity Voltage", "sv", "F0" }, \
+    { LOG_TEMP_MSG, sizeof(log_TEMP), \
+      "TEMPERATURE", "Qf", "TimeUS,Temp Voltage","sv", "F0" }, \
     { LOG_DF_MAV_STATS, sizeof(log_DF_MAV_Stats), \
       "DMS", "IIIIIBBBBBBBBBB",         "TimeMS,N,Dp,RT,RS,Er,Fa,Fmn,Fmx,Pa,Pmn,Pmx,Sa,Smn,Smx", "s--------------", "C--------------" }, \
     { LOG_BEACON_MSG, sizeof(log_Beacon), \
@@ -1560,6 +1581,8 @@ enum LogMessages : uint8_t {
     LOG_ISBD_MSG,
     LOG_ASP2_MSG,
     LOG_PERFORMANCE_MSG,
+    LOG_HUM_MSG,
+    LOG_TEMP_MSG,
     _LOG_LAST_MSG_
 };
 

@@ -100,6 +100,8 @@ const AP_Scheduler::Task Copter::scheduler_tasks[] = {
 #if RANGEFINDER_ENABLED == ENABLED
     SCHED_TASK(read_rangefinder,      20,    100),
 #endif
+    SCHED_TASK(read_humidity,         10,    100),
+    SCHED_TASK(read_temp,             10,    100),
 #if PROXIMITY_ENABLED == ENABLED
     SCHED_TASK_CLASS(AP_Proximity,         &copter.g2.proximity,        update,         100,  50),
 #endif

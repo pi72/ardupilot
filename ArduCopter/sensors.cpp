@@ -71,6 +71,16 @@ bool Copter::rangefinder_alt_ok()
     return (rangefinder_state.enabled && rangefinder_state.alt_healthy);
 }
 
+// Read humidity data
+void Copter::read_humidity(){
+    DataFlash.Log_Write_HUM(humidity);
+}
+
+// Read temperature data
+void Copter::read_temp(){
+    DataFlash.Log_Write_TEMP(temp);
+}
+
 /*
   update RPM sensors
  */

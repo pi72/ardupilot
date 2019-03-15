@@ -234,7 +234,13 @@ void Copter::init_ardupilot()
     // initialise AP_RPM library
     rpm_sensor.init();
 #endif
-
+    
+    // initialise humidity sensor
+    humidity.init();
+    
+    // initialise temperature sensor
+    temp.init();
+    
 #if MODE_AUTO_ENABLED == ENABLED
     // initialise mission library
     mission.init();

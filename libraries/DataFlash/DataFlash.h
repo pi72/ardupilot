@@ -23,6 +23,8 @@
 #include <AP_Beacon/AP_Beacon.h>
 #include <AP_Proximity/AP_Proximity.h>
 #include <AP_InertialSensor/AP_InertialSensor_Backend.h>
+#include <AP_HumiditySensor/HumiditySensor.h>
+#include <AP_TempSensor/TempSensor.h>
 
 #include <stdint.h>
 
@@ -95,6 +97,8 @@ public:
     void Log_Write_Parameter(const char *name, float value);
     void Log_Write_GPS(uint8_t instance, uint64_t time_us=0);
     void Log_Write_RFND(const RangeFinder &rangefinder);
+    void Log_Write_HUM(HumiditySensor& humidity);
+    void Log_Write_TEMP(TempSensor &temp);
     void Log_Write_IMU();
     void Log_Write_IMUDT(uint64_t time_us, uint8_t imu_mask);
     bool Log_Write_ISBH(uint16_t seqno,
